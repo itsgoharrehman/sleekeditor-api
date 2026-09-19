@@ -1,119 +1,61 @@
-# SleekEditor Standalone API
+# sleekeditor-api
 
-A standalone, modern, dependency-free, and offline-first custom rich text WYSIWYG editor component. Exposes a clean and object-oriented JavaScript Class API.
+A modern, dependency-free, and offline-first custom rich-text WYSIWYG editor component. Exposes a clean, object-oriented JavaScript Class API with real-time word/character telemetry, block formatting presets, customizable toolbars, and dynamic theme switching.
 
-## Features
+## Architecture and Stack
 
-- **Formatting controls**: Bold, Italic, Underline, Strikethrough, Subscript, Superscript.
-- **Layout alignments**: Left, Center, Right align.
-- **Lists**: Bullet lists, Ordered numbered lists, and indentation controls (Tab / Shift+Tab).
-- **Custom Blocks**: Blockquotes, Preformatted Code snippets, HTML details/summary FAQ accordion lists, tables, ASCII diagrams.
-- **Visual & Code Sync**: Full editing support with source HTML editing toggle view.
-- **Events & Stats**: Real-time callback hooks for changes (`onChange`) and word/character count updates (`onWordCountUpdate`).
-- **Self-contained**: Offline-ready with embedded inline SVGs instead of CDN iconography dependencies.
+* **Language**: Vanilla JavaScript (ES6+ Class Architecture)
+* **Styling**: Vanilla CSS3 custom properties (design tokens)
+* **Core API**: Native DOM `contenteditable`, Selection API, and Range API
+* **Bundle Footprint**: Sub-15KB unminified, zero external NPM dependencies
 
----
+## Key Features
 
-## Installation & Setup
+* **Class-Based Instantiation**: Embed multiple isolated editor instances on a single page with custom selector bindings.
+* **Block & Inline Formatting**: Headings (H1-H6), quotes, code snippets, lists, bold, italics, underline, and links.
+* **Real-Time Analytics**: Built-in event hooks for word count, character count, and estimated reading time.
+* **Theme System**: Seamless dark and light mode adaptation via CSS variables.
 
-### Option A: Using CDN Links (Quickest)
-You can load the editor directly from a CDN (or your hosted files) without installing anything locally:
+## Getting Started
 
+### Installation
+```bash
+git clone https://github.com/itsgoharrehman/sleekeditor-api.git
+cd sleekeditor-api
+```
+
+### Usage
 ```html
-<!-- Load CSS from CDN Link -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gohardev260/sleek-editor-api@main/editor.css">
-
-<!-- Load JavaScript from CDN Link -->
-<script src="https://cdn.jsdelivr.net/gh/gohardev260/sleek-editor-api@main/editor.js"></script>
+<link rel="stylesheet" href="sleekeditor.css">
+<div id="editor-container"></div>
+<script src="sleekeditor.js"></script>
+<script>
+  const editor = new SleekEditor('#editor-container', {
+    placeholder: 'Write your content here...',
+    theme: 'dark',
+    toolbar: ['bold', 'italic', 'heading', 'link', 'list', 'code']
+  });
+</script>
 ```
 
-### Option B: Local Files
-1. Copy `editor.js` and `editor.css` to your project assets folder.
-2. Link the stylesheet and script in your HTML header:
+## API Reference
 
-```html
-<link rel="stylesheet" href="editor.css">
-<script src="editor.js"></script>
-```
+* `editor.getContent()`: Returns serialized HTML string.
+* `editor.getText()`: Returns raw plain-text content.
+* `editor.setContent(html)`: Loads markup into the editor instance.
+* `editor.clear()`: Resets editor to empty state.
 
----
+## Security Policy
 
-## Usage
+Report vulnerabilities to `goharrehmanfsd260@gmail.com`.
 
-1. Create a container element inside your page:
+## Maintainer
 
-```html
-<div id="rich-editor-container"></div>
-```
+* **Gohar Rehman**
+* GitHub: [@itsgoharrehman](https://github.com/itsgoharrehman)
+* Email: `goharrehmanfsd260@gmail.com`
+* Website: [itsgoharrehman.netlify.app](https://itsgoharrehman.netlify.app/)
 
-4. Initialize the editor programmatically with the API:
+## License
 
-```javascript
-const editor = new SleekEditor({
-    container: '#rich-editor-container',
-    initialHTML: '<p>Welcome to the editor!</p>',
-    onChange: (html) => {
-        console.log('Content changed:', html);
-    },
-    onWordCountUpdate: (words, characters) => {
-        console.log(`Word Count: ${words} | Characters: ${characters}`);
-    }
-});
-```
-
----
-
-## API Documentation
-
-### Options Configuration
-
-When creating a new instance via `new SleekEditor(options)`, you can configure the following keys:
-
-| Property | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `container` | `string \| Element` | `null` | Query selector or DOM node to append the editor layout into. |
-| `initialHTML` | `string` | `'<p>Start writing here...</p>'` | The default content loaded on instantiation. |
-| `theme` | `string` | `'light'` | Can be `'light'` or `'dark'` to adjust default colors. |
-| `onChange` | `function` | `null` | Callback function receiving updated HTML on any edit/input change. |
-| `onWordCountUpdate` | `function` | `null` | Callback function receiving `(wordsCount, charactersCount)` on content change. |
-
-### API Methods
-
-The editor instance exposes the following programmatic API methods:
-
-#### `getContent()`
-Returns the current content as a clean HTML string.
-- **Returns**: `string`
-
-```javascript
-const html = editor.getContent();
-```
-
-#### `setContent(html)`
-Overwrites the current content in the editor space.
-- **Parameters**: `html` (`string`)
-
-```javascript
-editor.setContent('<h2>New Heading</h2><p>Refreshed text content.</p>');
-```
-
-#### `toggleSourceMode()`
-Toggles the editor view between the Visual WYSIWYG editor and the Raw HTML Code editor.
-
-```javascript
-editor.toggleSourceMode();
-```
-
----
-
-## Customizing Theme Styles
-
-The editor styling is built on CSS variables which makes customization straightforward. You can override the variables inside your project CSS files:
-
-```css
-:root {
-    --de-color-primary: #10b981; /* Change primary accent colors */
-    --de-color-bg: #fafafa;
-    --de-radius: 12px;           /* Adjust container roundness */
-}
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
